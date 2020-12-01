@@ -3,6 +3,8 @@ package com.dkit.oop;
 import java.util.ArrayList;
 import java.util.Objects;
 
+// ***************************************SOLUTION ****************************************
+
 public class Property
 {
     private int propertyID;
@@ -10,15 +12,40 @@ public class Property
     private String postcode;
     private double sellingPrice;
     private double area;
+    private static int sequence = 0;
+    private ArrayList<String> facilities;
 
-    public Property(int propertyID, String owner, String postcode, double sellingPrice, double area)
+ //   public Property(int propertyID, String owner, String postcode, double sellingPrice, double area)
+    public Property( String owner, String postcode, double sellingPrice, double area)
     {
-        this.propertyID = propertyID;
+        this.propertyID = ++sequence;
         this.owner = owner;
         this.postcode = postcode;
         this.sellingPrice = sellingPrice;
         this.area = area;
     }
+
+    public Property( String owner, String postcode, double area)
+    {
+        this.propertyID = ++sequence;
+        this.owner = owner;
+        this.postcode = postcode;
+        this.sellingPrice = 50000.00;  // some default value
+        this.area = area;
+    }
+
+    public void addFacility(String facility) {
+        facilities.add(facility);
+    }
+
+    public void removeFacility(String facility) {
+        facilities.remove(facility);
+    }
+
+    public double calculateTax() {
+        return this.area* 2.2 + 15;  // should create constant
+    }
+
 
     public int getPropertyID()
     {
@@ -70,4 +97,30 @@ public class Property
         this.area = area;
     }
 
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "propertyID=" + propertyID +
+                ", owner='" + owner + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", sellingPrice=" + sellingPrice +
+                ", area=" + area +
+                ", facilities=" + facilities +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return propertyID == property.propertyID &&
+                Objects.equals(owner, property.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(propertyID, owner);
+    }
 }
